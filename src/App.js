@@ -1,9 +1,7 @@
 import "./default.scss";
 import HomePage from "./pages/HomePage";
 import React, { useEffect } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { setCurrentUser } from "./redux/User/user.actions.js";
+import { Route, Switch } from "react-router-dom";
 import { auth, handleUserProfile } from "./firebase/utils";
 import WithAuth from "./hoc/withAuth";
 
@@ -16,23 +14,27 @@ import Registration from "./pages/Registration";
 import Login from "./pages/LoginPage";
 import Recovery from "./pages/Recovery";
 import Dashboard from "./pages/Dashboard";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "./redux/User/user.actions";
 
 const App = (props) => {
-  const { currentUser, setCurrentUser } = props;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const authListener = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await handleUserProfile(userAuth);
         userRef.onSnapshot((snapshot) => {
-          setCurrentUser({
-            id: snapshot.id,
-            ...snapshot.data(),
-          });
+          dispatch(
+            setCurrentUser({
+              id: snapshot.id,
+              ...snapshot.data(),
+            })
+          );
         });
       }
 
-      setCurrentUser(userAuth);
+      dispatch(setCurrentUser(userAuth));
     });
 
     return () => {
@@ -63,15 +65,11 @@ const App = (props) => {
 
         <Route
           path="/login"
-          render={() =>
-            currentUser ? (
-              <Redirect to="/" />
-            ) : (
-              <MainLayout>
-                <Login />
-              </MainLayout>
-            )
-          }
+          render={() => (
+            <MainLayout>
+              <Login />
+            </MainLayout>
+          )}
         />
 
         <Route
@@ -100,12 +98,4 @@ const App = (props) => {
   );
 };
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
