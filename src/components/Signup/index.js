@@ -3,18 +3,18 @@ import "./styles.scss";
 import FormInput from "../forms/FormInput";
 import Buttons from "../forms/Button";
 import AuthWrapper from "../AuthWrapper";
-import { withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { resetAllAuthForms, signUpUser } from "../../redux/User/user.actions";
+import { signUpUserStart } from "../../redux/User/user.actions";
 
 const mapState = ({ user }) => ({
-  signUpSuccess: user.signUpSuccess,
-  signUpError: user.signUpError,
+  currentUser: user.currentUser,
+  userErr: user.userErr,
 });
 
 const Signup = (props) => {
-  const { signUpSuccess, signUpError } = useSelector(mapState);
-
+  const { currentUser, userErr } = useSelector(mapState);
+  const history = useHistory();
   const dispatch = useDispatch();
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
@@ -23,18 +23,17 @@ const Signup = (props) => {
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    if (signUpSuccess) {
+    if (currentUser) {
       resetForm();
-      dispatch(resetAllAuthForms());
-      props.history.push("/");
+      history.push("/");
     }
-  }, [signUpSuccess]);
+  }, [currentUser]);
 
   useEffect(() => {
-    if (Array.isArray(signUpError) && signUpError.length > 0) {
-      setErrors(signUpError);
+    if (Array.isArray(userErr) && userErr.length > 0) {
+      setErrors(userErr);
     }
-  }, [signUpError]);
+  }, [userErr]);
 
   const resetForm = () => {
     setDisplayName("");
@@ -47,7 +46,9 @@ const Signup = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    dispatch(signUpUser({ displayName, email, password, confirmPassword }));
+    dispatch(
+      signUpUserStart({ displayName, email, password, confirmPassword })
+    );
   };
 
   const configAuthWrapper = {
@@ -104,4 +105,4 @@ const Signup = (props) => {
   );
 };
 
-export default withRouter(Signup);
+export default Signup;
