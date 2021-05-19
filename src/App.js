@@ -15,6 +15,9 @@ import Login from "./pages/LoginPage";
 import Recovery from "./pages/Recovery";
 import Dashboard from "./pages/Dashboard";
 import { checkUserSession } from "./redux/User/user.actions";
+import Admin from "./pages/Admin";
+import WithAdminAuth from "./hoc/withAdminAuth";
+import AdminToolbar from "./components/AdminToolbar";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -25,6 +28,7 @@ const App = (props) => {
 
   return (
     <div className="App">
+      <AdminToolbar />
       <Switch>
         <Route
           exact
@@ -72,6 +76,18 @@ const App = (props) => {
                 <Dashboard />{" "}
               </MainLayout>
             </WithAuth>
+          )}
+        />
+
+        <Route
+          path="/admin"
+          render={() => (
+            <WithAdminAuth>
+              <MainLayout>
+                {" "}
+                <Admin />{" "}
+              </MainLayout>
+            </WithAdminAuth>
           )}
         />
       </Switch>
