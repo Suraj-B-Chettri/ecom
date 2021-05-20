@@ -18,6 +18,8 @@ import { checkUserSession } from "./redux/User/user.actions";
 import Admin from "./pages/Admin";
 import WithAdminAuth from "./hoc/withAdminAuth";
 import AdminToolbar from "./components/AdminToolbar";
+import DashboardLayout from "./layouts/DashboardLayout";
+import AdminLayout from "./layouts/AdminLayout";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -71,10 +73,10 @@ const App = (props) => {
           path="/dashboard"
           render={() => (
             <WithAuth>
-              <MainLayout>
+              <DashboardLayout>
                 {" "}
                 <Dashboard />{" "}
-              </MainLayout>
+              </DashboardLayout>
             </WithAuth>
           )}
         />
@@ -83,10 +85,10 @@ const App = (props) => {
           path="/admin"
           render={() => (
             <WithAdminAuth>
-              <MainLayout>
+              <AdminLayout>
                 {" "}
                 <Admin />{" "}
-              </MainLayout>
+              </AdminLayout>
             </WithAdminAuth>
           )}
         />

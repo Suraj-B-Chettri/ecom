@@ -56,3 +56,24 @@ a:hover {
 .homepageHeight {
     height: calc(100% - 6.5rem - 5.8rem);
 }
+
+.adminLayout {
+    height: calc(100% - 6.5rem - 5.8rem);
+
+    .controlPanel {
+        height: calc(100% - 6.5rem);
+
+        .sidebar {
+            width: 30%;
+            height: 100%;
+            border-right: 2px solid #d3d3d3;
+            float: left;
+        }
+
+        .content {
+            width: 70%;
+            height: 100%;
+            float: left;
+        }
+    }
+}

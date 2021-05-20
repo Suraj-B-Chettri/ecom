@@ -1,0 +1,31 @@
+.userProfile {
+    width: 100%;
+    height: 7rem;
+
+    .wrap {
+        margin: auto;
+        padding: auto;
+
+        .avatar {
+            height: 6rem;
+            border: 2px solid black;
+            border-radius: 50%;
+            width: 6rem;
+            margin: auto;
+
+            .displayImage {
+                height: 100%;
+                width: 100%;
+                padding: 0.4rem;
+            }
+
+        }
+
+        .displayName {
+            color: rgba(0, 0, 0, 0.7);
+            margin-top: 1rem;
+            font-weight: 700;
+            text-align: center;
+        }
+    }
+}
