@@ -1,20 +1,22 @@
 import React from "react";
 import "./styles.scss";
-import Logo from "../../assets/logo.png";
+import userIMG from "../../assets/logo.png";
 const UserProfile = (props) => {
   const { currentUser } = props;
-
+  const { displayName } = currentUser;
   console.log(props);
   return (
     <div className="userProfile">
-      <div className="wrap">
-        <div className="avatar">
-          <img className="displayImage" src={Logo} alt="main logo" />
-        </div>
-        <div className="displayName">
-          <span>{currentUser && currentUser.displayName}</span>
-        </div>
-      </div>
+      <ul>
+        <li>
+          <div className="img">
+            <img src={userIMG} alt={displayName} />
+          </div>
+        </li>
+        <li>
+          <span className="displayName">{displayName && displayName}</span>
+        </li>
+      </ul>
     </div>
   );
 };

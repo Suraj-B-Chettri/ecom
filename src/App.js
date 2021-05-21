@@ -20,6 +20,7 @@ import WithAdminAuth from "./hoc/withAdminAuth";
 import AdminToolbar from "./components/AdminToolbar";
 import DashboardLayout from "./layouts/DashboardLayout";
 import AdminLayout from "./layouts/AdminLayout";
+import Search from "./pages/Search";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -41,6 +42,17 @@ const App = (props) => {
             </HomepageLayout>
           )}
         />
+
+        <Route
+          exact
+          path="/search"
+          render={() => (
+            <MainLayout>
+              <Search />
+            </MainLayout>
+          )}
+        />
+
         <Route
           path="/signup"
           render={() => (
