@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductsStart } from "../../redux/Products/prodcuts.actions";
+import { fetchProductsStart } from "../../redux/Products/products.actions";
 import Product from "./Product";
 import "./styles.scss";
 import FormSelect from "../forms/FormSelect";
@@ -20,7 +20,7 @@ const ProductResults = ({}) => {
   const { data, queryDoc, isLastPage } = products;
 
   useEffect(() => {
-    dispatch(fetchProductsStart());
+    dispatch(fetchProductsStart({ filterType }));
   }, [filterType]);
 
   const handleFilter = (e) => {
@@ -74,9 +74,7 @@ const ProductResults = ({}) => {
           const { productName, productThumbnail, productPrice } = product;
 
           const configProduct = {
-            productThumbnail,
-            productName,
-            productPrice,
+            ...product,
           };
           return <Product {...configProduct} />;
         })}

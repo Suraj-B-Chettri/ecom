@@ -5,11 +5,13 @@ import FormInput from "../../components/forms/FormInput";
 import FormSelect from "../../components/forms/FormSelect";
 import Modal from "../../components/Modal";
 import { useDispatch, useSelector } from "react-redux";
+import CKEditor from "ckeditor4-react";
+
 import {
   addProductStart,
   deleteProductsStart,
   fetchProductsStart,
-} from "../../redux/Products/prodcuts.actions";
+} from "../../redux/Products/products.actions";
 import LoadMore from "../../components/LoadMore";
 
 const mapState = ({ productsData }) => ({
@@ -22,6 +24,8 @@ const Admin = (props) => {
   const [productName, setProductName] = useState("");
   const [productThumbnail, setProductThumbnail] = useState("");
   const [productPrice, setProductPrice] = useState(0);
+  const [productDesc, setProductDesc] = useState("");
+
   const dispatch = useDispatch();
   const { products } = useSelector(mapState);
   const { data, queryDoc, isLastPage } = products;
@@ -38,6 +42,7 @@ const Admin = (props) => {
     setProductName("");
     setProductThumbnail("");
     setProductPrice(0);
+    setProductDesc("");
   };
 
   const configModal = {
@@ -47,12 +52,20 @@ const Admin = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(
+      productCategory,
+      productName,
+      productThumbnail,
+      productPrice,
+      productDesc
+    );
     dispatch(
       addProductStart({
         productCategory,
         productName,
         productThumbnail,
         productPrice,
+        productDesc,
       })
     );
     resetForm();
@@ -76,7 +89,7 @@ const Admin = (props) => {
               className="toggleProductButton"
               onClick={() => toggleModal()}
             >
-              Add nw Product
+              Add new Product
             </Buttons>
           </li>
         </ul>
@@ -121,6 +134,10 @@ const Admin = (props) => {
               type="number"
               value={productPrice}
               handleChange={(e) => setProductPrice(e.target.value)}
+            />
+
+            <CKEditor
+              onChange={(evt) => setProductDesc(evt.editor.getData())}
             />
 
             <Buttons onClick={handleSubmit}>Add Product</Buttons>
