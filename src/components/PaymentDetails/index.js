@@ -6,10 +6,11 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import Buttons from "../forms/Button";
 import { apiInstance } from "../../Utils";
 import {createStructuredSelector} from 'reselect';
-import {selectCartItemsCount, selectCartTotal} from '../../redux/Cart/cart.selectors'; 
+import {selectCartItems, selectCartItemsCount, selectCartTotal} from '../../redux/Cart/cart.selectors'; 
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "../../redux/Cart/cart.actions";
 import { useHistory } from "react-router-dom";
+import { saveOrderHistory } from "../../redux/Orders/orders.actions";
 
 const initialAddressState = {
   line1: "",
@@ -23,13 +24,14 @@ const initialAddressState = {
 const mapState = createStructuredSelector({
   total: selectCartTotal,
   itemCount: selectCartItemsCount,
+  cartItems : selectCartItems,
 })
 const PaymentDetails = () => {
 
-  const {total, itemCount} = useSelector(mapState);
+  const {total, itemCount, cartItems} = useSelector(mapState);
   useEffect(()=> {
     if(itemCount < 1) {
-      history.push("/");
+      history.push("/dashboard");
     }
 
   }, [itemCount])
@@ -89,8 +91,24 @@ const PaymentDetails = () => {
         stripe.confirmCardPayment(clientSecret, {payment_method: paymentMethod.id
         })
         .then(({paymentIntent}) => {
-          console.log(paymentIntent);
-          dispatch(clearCart());
+          // console.log(paymentIntent);
+          // import {saveOrderHistory} from './../../redux/Orders/orders.actions';
+          const configOrder = {
+            orderTotal: total,
+            orderItems: cartItems.map(item => {
+              const {documentID, productThumbnail, productName, productPrice, quantity} = item;
+
+              return {
+                documentID, 
+                productThumbnail,
+                 productName,
+                  productPrice,
+                   quantity
+              }
+            })
+          }
+          dispatch(
+            saveOrderHistory(configOrder))
         })
       })
     })
