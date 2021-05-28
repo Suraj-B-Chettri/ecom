@@ -10,6 +10,7 @@ export const checkUserIsAdmin = (currentUser) => {
 };
 
 export const apiInstance = axios.create({
-  baseURL : 'http://localhost:5001/ecom-4c447/us-central1/api'
+  // baseURL : 'http://localhost:5001/ecom-4c447/us-central1/api',
+  baseURL: "https://us-central1-ecom-4c447.cloudfunctions.net/api",
 }
 )
