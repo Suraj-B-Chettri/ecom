@@ -42,7 +42,7 @@ const Header = (props) => {
 
         <div className="callToActions">
           <ul>
-            <li>
+            <li key="122">
               <Link to="/cart">Your Cart ({totalNumCartItems})</Link>
             </li>
 
@@ -54,9 +54,7 @@ const Header = (props) => {
                 <span onClick={() => signOut()}>LogOut</span>
               </li>,
             ]}
-          </ul>
 
-          <ul>
             {!currentUser && [
               <li>
                 <Link to="/signup">Register</Link>

@@ -42,6 +42,13 @@
                 padding: 8px 10px;
                 border: 1px solid black;
             }
+
+            a:hover {
+                background: transparent;
+                color: white;
+                border: white;
+                border-radius: 12px;
+            }
         }
     }
 }
